@@ -216,13 +216,6 @@ services:
 
 ## 🔒 Seguridad
 
-### Contraseñas por Defecto
-- **Root MySQL**: `rootpassword`
-- **Usuario App**: `apppassword`
-- **Admin Web**: `admin123`
-
-⚠️ **IMPORTANTE**: Cambiar estas contraseñas en producción.
-
 ### Puertos Expuestos
 - **8080**: Aplicación web (HTTP)
 - **8081**: phpMyAdmin (HTTP)
