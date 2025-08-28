@@ -1,5 +1,5 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT'] . '/GestiondeTareas/app/config/dirs.php');
+require_once(__DIR__ . '/../config/dirs.php');
 require_once(CONTROLLERS_PATH . '/MateriaController.php');
 
 // Verificar sesión

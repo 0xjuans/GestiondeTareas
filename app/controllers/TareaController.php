@@ -1,6 +1,6 @@
 <?php
 if (!defined('ROOT_PATH')) {
-    require_once($_SERVER['DOCUMENT_ROOT'] . '/GestiondeTareas/app/config/dirs.php');
+    require_once(__DIR__ . '/../config/dirs.php');
 }
 
 require_once(MODELS_PATH . '/TareaModel.php');
@@ -449,7 +449,7 @@ class TareaController {
                 $estudiantes[] = $row['estudiante_id'];
             }            // Preparar notificación
             $titulo = "Nueva tarea: " . $tituloTarea;
-            $fechaFormateada = $fechaEntrega ? date('d/m/Y', strtotime($fechaEntrega)) : 'Fecha por definir';
+            $fechaFormateada = !empty($fechaEntrega) ? date('d/m/Y', strtotime($fechaEntrega)) : 'Fecha por definir';
             $mensaje = "Se ha asignado una nueva tarea de " . $nombreMateria . ". Fecha de entrega: " . $fechaFormateada . ". ¡Revisa los detalles!";
               // Insertar notificaciones para cada estudiante
             $insertados = 0;
@@ -499,10 +499,12 @@ class TareaController {
             }
             
             $fechaActual = time();
-            $fechaEntrega = strtotime($tarea['fecha_entrega']);
-            
-            if ($fechaEntrega < $fechaActual) {
-                return ['error' => 'No se pueden entregar tareas vencidas'];
+            if (!empty($tarea['fecha_entrega'])) {
+                $fechaEntrega = strtotime($tarea['fecha_entrega']);
+                
+                if ($fechaEntrega < $fechaActual) {
+                    return ['error' => 'No se pueden entregar tareas vencidas'];
+                }
             }
             
             // Preparar datos para la entrega
@@ -742,7 +744,7 @@ class TareaController {
                     INNER JOIN materias m ON t.materia_id = m.id
                     INNER JOIN estados_tarea est ON et.estado_id = est.id
                     WHERE et.estudiante_id = ? 
-                    AND et.estado_id IN (3, 4) -- Estados: entregada, calificada
+                    AND et.estado_id IN (8, 10) -- Estados: completada, calificada
                     ORDER BY et.fecha_entrega DESC";
             
             $stmt = $conn->prepare($sql);
@@ -793,7 +795,7 @@ class TareaController {
                      FROM entregas_tarea et
                      WHERE et.estudiante_id = ? 
                      AND et.calificacion >= 85
-                     AND et.estado_id = 4";
+                     AND et.estado_id = 10";
             
             $stmt2 = $conn->prepare($sql2);
             $stmt2->bind_param("i", $estudianteId);
@@ -876,7 +878,7 @@ class TareaController {
                     INNER JOIN materias m ON t.materia_id = m.id
                     WHERE et.estudiante_id = ? 
                     AND et.calificacion IS NOT NULL
-                    AND et.estado_id = 4
+                    AND et.estado_id = 10
                     GROUP BY m.id, m.nombre
                     ORDER BY promedio DESC";
             
@@ -917,7 +919,7 @@ class TareaController {
                      FROM entregas_tarea et
                      WHERE et.estudiante_id = ? 
                      AND et.calificacion IS NOT NULL
-                     AND et.estado_id = 4";
+                     AND et.estado_id = 10";
             
             $stmt1 = $conn->prepare($sql1);
             $stmt1->bind_param("i", $estudianteId);
@@ -931,7 +933,7 @@ class TareaController {
                      INNER JOIN materias m ON t.materia_id = m.id
                      WHERE et.estudiante_id = ? 
                      AND et.calificacion IS NOT NULL
-                     AND et.estado_id = 4";
+                     AND et.estado_id = 10";
             
             $stmt2 = $conn->prepare($sql2);
             $stmt2->bind_param("i", $estudianteId);
@@ -947,7 +949,7 @@ class TareaController {
                          INNER JOIN materias m ON t.materia_id = m.id
                          WHERE et.estudiante_id = ? 
                          AND et.calificacion IS NOT NULL
-                         AND et.estado_id = 4
+                         AND et.estado_id = 10
                          GROUP BY m.id
                          HAVING promedio_materia >= 70
                      ) as materias_ok";

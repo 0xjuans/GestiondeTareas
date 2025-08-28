@@ -1,6 +1,6 @@
 <?php
 if (!defined('ROOT_PATH')) {
-    include_once($_SERVER['DOCUMENT_ROOT'] . '/GestiondeTareas/app/config/dirs.php');
+    include_once(__DIR__ . '/../../config/dirs.php');
 }
 
 // Configurar zona horaria para Colombia
@@ -11,11 +11,14 @@ require_once(CONTROLLERS_PATH . '/TareaController.php');
 
 // Función de ayuda para cargar assets
 function asset($path) {
-    return '/GestiondeTareas/public/assets/' . ltrim($path, '/');
+    return BASE_URL . '/public/assets/' . ltrim($path, '/');
 }
 
 // Función para calcular tiempo transcurrido
 function calcularTiempoTranscurrido($fechaCreacion) {
+    if (empty($fechaCreacion)) {
+        return 'Fecha no disponible';
+    }
     $timestamp_notificacion = strtotime($fechaCreacion);
     $timestamp_ahora = time();
     $diferencia_segundos = $timestamp_ahora - $timestamp_notificacion;

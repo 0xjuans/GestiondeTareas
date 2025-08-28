@@ -1,5 +1,5 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT'] . '/GestiondeTareas/app/models/NotificationModel.php');
+require_once(__DIR__ . '/../../models/NotificationModel.php');
 session_start();
 
 header('Content-Type: application/json');

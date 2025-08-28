@@ -1,5 +1,5 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT'] . '/GestiondeTareas/app/models/EntregaModel.php');
+require_once(__DIR__ . '/../models/EntregaModel.php');
 
 class EntregaController {
     private $entregaModel;
@@ -14,7 +14,7 @@ class EntregaController {
             $tareaId = $_POST["tarea_id"];
             $estudianteId = $_SESSION["estudiante_id"];
             
-            $directorioSubida = $_SERVER['DOCUMENT_ROOT'] . "/GestiondeTareas/uploads/";
+            $directorioSubida = __DIR__ . '/../../public/uploads/entregas/';
             $nombreArchivo = basename($_FILES["archivo"]["name"]);
             $rutaArchivo = $directorioSubida . $nombreArchivo;
 

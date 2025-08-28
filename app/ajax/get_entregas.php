@@ -1,6 +1,6 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT'] . '/GestiondeTareas/app/config/dirs.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/GestiondeTareas/app/config/DbConfig.php');
+require_once(__DIR__ . '/../config/dirs.php');
+require_once(__DIR__ . '/../config/DbConfig.php');
 
 // Verificar sesión
 session_start();

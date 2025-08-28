@@ -1,5 +1,5 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT'] . '/GestiondeTareas/app/config/DbConfig.php');
+require_once(__DIR__ . '/../config/DbConfig.php');
 
 class Usuario {
     private $conn;

@@ -1,6 +1,6 @@
 <?php
 if (!defined('ROOT_PATH')) {
-    require_once($_SERVER['DOCUMENT_ROOT'] . '/GestiondeTareas/app/config/dirs.php');
+    require_once(__DIR__ . '/../../config/dirs.php');
 }
 
 require_once(CONTROLLERS_PATH . '/TareaController.php');
@@ -559,7 +559,7 @@ function marcarVencida(tareaId) {
                 form.innerHTML = `
                     <input type="hidden" name="accion" value="cambiar_estado">
                     <input type="hidden" name="tarea_id" value="${tareaId}">
-                    <input type="hidden" name="estado_id" value="4"> <!-- ID del estado 'vencida' -->
+                    <input type="hidden" name="estado_id" value="9"> <!-- ID del estado 'vencida' -->
                 `;
                 document.body.appendChild(form);
                 form.submit();

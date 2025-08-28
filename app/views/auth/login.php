@@ -1,5 +1,5 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT'] . '/GestiondeTareas/app/config/dirs.php');
+require_once(__DIR__ . '/../../config/dirs.php');
 session_start();
 
 if (isset($_SESSION['user_id'])) {
@@ -27,6 +27,9 @@ if (isset($_SESSION['user_id'])) {
 </head>
 
 <body>
+    <script>
+        window.BASE_URL = "<?= BASE_URL ?>";
+    </script>
     <div class="login-container">
         <div class="glass-effect">
             <img src="<?= BASE_URL ?>/public/assets/images/Logo_colegio.webp" alt="Logo Colegio San Francisco de Asís" class="school-logo">
@@ -62,7 +65,8 @@ if (isset($_SESSION['user_id'])) {
     <script src="<?= BASE_URL ?>/public/assets/js/bootstrap.bundle.min.js"></script>
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="<?= BASE_URL ?>/public/assets/js/login.js"></script>
+    <?php $login_js_v = @filemtime(PUBLIC_PATH . '/assets/js/login.js') ?: time(); ?>
+    <script src="<?= BASE_URL ?>/public/assets/js/login.js?v=<?= $login_js_v ?>"></script>
 </body>
 
 </html>

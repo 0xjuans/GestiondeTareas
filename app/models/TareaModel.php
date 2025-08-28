@@ -1,8 +1,8 @@
 <?php
 if (!defined('ROOT_PATH')) {
-    require_once($_SERVER['DOCUMENT_ROOT'] . '/GestiondeTareas/app/config/dirs.php');
+    require_once(__DIR__ . '/../config/dirs.php');
 }
-require_once($_SERVER['DOCUMENT_ROOT'] . '/GestiondeTareas/app/config/DbConfig.php');
+require_once(__DIR__ . '/../config/DbConfig.php');
 
 class TareaModel {
     private $conn;
@@ -22,7 +22,7 @@ class TareaModel {
      */
     public function insertarTarea($titulo, $descripcion, $fechaEntrega, $materiaId, $grupoId, $profesorId) {
         try {
-            $estadoId = 1; // Estado "pendiente" por defecto
+            $estadoId = 6; // Estado "pendiente" por defecto (corregido según la estructura real de la BD)
             $sql = "INSERT INTO tareas (titulo, descripcion, fecha_entrega, materia_id, grupo_id, profesor_id, estado_id) 
                     VALUES (?, ?, ?, ?, ?, ?, ?)";
             
@@ -59,7 +59,7 @@ class TareaModel {
 
     public function getTareasConDetalles($estudiante_id) {
         $sql = "SELECT 
-                    t.id, t.titulo, t.fecha_creacion, t.fecha_entrega, 
+                    t.id, t.titulo, t.descripcion, t.fecha_creacion, t.fecha_entrega, 
                     et.nombre AS estado_nombre, 
                     m.nombre AS materia_nombre, 
                     g.nombre AS grupo_nombre 
@@ -79,7 +79,7 @@ class TareaModel {
 
     public function getTareasFiltradas($estudiante_id, $materia = null, $estado = null) {
         $sql = "SELECT 
-                    t.id, t.titulo, t.fecha_creacion, t.fecha_entrega, 
+                    t.id, t.titulo, t.descripcion, t.fecha_creacion, t.fecha_entrega, 
                     et.nombre AS estado_nombre, 
                     m.nombre AS materia_nombre, 
                     g.nombre AS grupo_nombre 
@@ -113,13 +113,13 @@ class TareaModel {
     }
 
     public function getTareasActivas() {
-        $sql = "SELECT id, titulo, fecha_entrega FROM tareas WHERE estado_id = 1"; // Asumiendo que 1 es el estado "pendiente"
+        $sql = "SELECT id, titulo, fecha_entrega FROM tareas WHERE estado_id = 6"; // 6 = "pendiente" (corregido según la estructura real de la BD)
         $result = $this->conn->query($sql);
         return $result->fetch_all(MYSQLI_ASSOC);
     }
     
     public function getTodasLasTareasConDetalles() {
-        $sql = "SELECT t.id, t.titulo, t.fecha_creacion, t.fecha_entrega, et.nombre AS estado_nombre, m.nombre AS materia_nombre, g.nombre AS grupo_nombre FROM tareas t JOIN materias m ON t.materia_id = m.id JOIN grupos g ON t.grupo_id = g.id LEFT JOIN estados_tarea et ON t.estado_id = et.id";
+        $sql = "SELECT t.id, t.titulo, t.descripcion, t.fecha_creacion, t.fecha_entrega, et.nombre AS estado_nombre, m.nombre AS materia_nombre, g.nombre AS grupo_nombre FROM tareas t JOIN materias m ON t.materia_id = m.id JOIN grupos g ON t.grupo_id = g.id LEFT JOIN estados_tarea et ON t.estado_id = et.id";
         $result = $this->conn->query($sql);
         return $result->fetch_all(MYSQLI_ASSOC);
     }
@@ -306,7 +306,7 @@ class TareaModel {
      */
     public function contarTareasActivas() {
         // Ajusta esta consulta según la estructura de tu tabla de tareas
-        $query = "SELECT COUNT(*) as total FROM tareas WHERE estado_id != 4"; // Asumiendo que estado_id=4 es para tareas archivadas o eliminadas
+        $query = "SELECT COUNT(*) as total FROM tareas WHERE estado_id != 9"; // 9 = "vencida" (corregido según la estructura real de la BD)
         $result = $this->conn->query($query);
         $row = $result->fetch_assoc();
         return $row['total'] ?? 0;
@@ -376,7 +376,7 @@ class TareaModel {
      */
     public function registrarEntrega($datos) {
         // Establecer estado inicial (Entregada)
-        $estadoEntregada = 2; // Asumiendo que 2 es el estado "entregada" o "en_progreso"
+        $estadoEntregada = 7; // 7 = "en_progreso" (corregido según la estructura real de la BD)
         
         $sql = "INSERT INTO entregas_tarea (tarea_id, estudiante_id, estado_id, comentarios, archivo_adjunto, fecha_entrega) 
                 VALUES (?, ?, ?, ?, ?, NOW())";

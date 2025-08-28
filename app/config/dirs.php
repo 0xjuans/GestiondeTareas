@@ -12,8 +12,9 @@ define('MODELS_PATH', APP_PATH . '/models');
 define('VIEWS_PATH', APP_PATH . '/views');
 define('LAYOUTS_PATH', VIEWS_PATH . '/layouts');
 
-// URL Base - Ajusta esto según tu configuración de servidor
-define('BASE_URL', '/GestiondeTareas');
+// URL Base - configurable por variable de entorno para soportar Docker
+// En XAMPP normalmente es '/GestiondeTareas'; en Docker se usa '' (raíz)
+define('BASE_URL', getenv('BASE_URL') !== false ? getenv('BASE_URL') : '/GestiondeTareas');
 
 // Helper function para construir URLs
 function url($path = '') {

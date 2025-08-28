@@ -1,6 +1,6 @@
 <?php
 if (!defined('ROOT_PATH')) {
-    require_once($_SERVER['DOCUMENT_ROOT'] . '/GestiondeTareas/app/config/dirs.php');
+    require_once(__DIR__ . '/../../config/dirs.php');
 }
 
 // Verificar que el usuario sea un profesor
@@ -159,7 +159,7 @@ $tareas = $tareaController->obtenerTareasAsignadasConEntregas($profesorId);
                                             <td><?= htmlspecialchars($tarea['titulo']) ?></td>
                                             <td><?= htmlspecialchars($tarea['grupo_nombre']) ?></td>
                                             <td><?= htmlspecialchars($tarea['materia_nombre']) ?></td>
-                                            <td><?= date('d/m/Y H:i', strtotime($tarea['fecha_entrega'])) ?></td>
+                                            <td><?= !empty($tarea['fecha_entrega']) ? date('d/m/Y H:i', strtotime($tarea['fecha_entrega'])) : 'N/A' ?></td>
                                             <td>
                                                 <span class="badge bg-primary">
                                                     <?= $tarea['entregadas'] ?> / <?= $tarea['total_estudiantes'] ?>

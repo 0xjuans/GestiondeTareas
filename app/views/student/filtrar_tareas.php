@@ -1,5 +1,5 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT'] . '/GestiondeTareas/app/controllers/TareaController.php');
+require_once(__DIR__ . '/../../controllers/TareaController.php');
 
 if (session_status() == PHP_SESSION_NONE) {
     session_start();

@@ -1,6 +1,6 @@
 <?php
 if (!defined('ROOT_PATH')) {
-    require_once($_SERVER['DOCUMENT_ROOT'] . '/GestiondeTareas/app/config/dirs.php');
+    require_once(__DIR__ . '/../../config/dirs.php');
 }
 
 // Cargar controladores necesarios
@@ -76,7 +76,9 @@ foreach ($gruposProfesor as $grupo) {
 // Ordenar tareas próximas por fecha de entrega
 if (!empty($tareasProximas)) {
     usort($tareasProximas, function($a, $b) {
-        return strtotime($a['fecha_entrega']) - strtotime($b['fecha_entrega']);
+        $fechaA = !empty($a['fecha_entrega']) ? strtotime($a['fecha_entrega']) : 0;
+        $fechaB = !empty($b['fecha_entrega']) ? strtotime($b['fecha_entrega']) : 0;
+        return $fechaA - $fechaB;
     });
 
     // Limitar a las 4 primeras tareas próximas

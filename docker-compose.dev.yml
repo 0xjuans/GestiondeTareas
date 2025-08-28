@@ -1,0 +1,71 @@
+version: "3.9"
+
+# Archivo de configuración para desarrollo
+# Usar: docker compose -f docker-compose.dev.yml up -d
+
+services:
+  web:
+    build: .
+    container_name: gestion_tareas_web_dev
+    ports:
+      - "8080:80"
+    environment:
+      - DB_HOST=db
+      - DB_USER=appuser
+      - DB_PASS=apppassword
+      - DB_NAME=gestion_tareas_escolares
+      - BASE_URL=http://localhost:8080
+      - APACHE_DOCUMENT_ROOT=/var/www/html/GestiondeTareas
+      - DEBUG_MODE=true
+      - LOG_QUERIES=true
+    volumes:
+      - ./:/var/www/html/GestiondeTareas
+      - uploads:/var/www/html/GestiondeTareas/public/uploads
+      - ./docker/apache/dev.conf:/etc/apache2/sites-available/000-default.conf
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  db:
+    image: mysql:8.0.43
+    container_name: gestion_tareas_db_dev
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --default-authentication-plugin=mysql_native_password --sql-mode=""
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpassword
+      - MYSQL_DATABASE=gestion_tareas_escolares
+      - MYSQL_USER=appuser
+      - MYSQL_PASSWORD=apppassword
+    volumes:
+      - db_data_dev:/var/lib/mysql
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d
+      - ./docker/mysql/conf:/etc/mysql/conf.d
+    ports:
+      - "3307:3306"
+    restart: unless-stopped
+
+  phpmyadmin:
+    image: phpmyadmin:5
+    container_name: gestion_tareas_phpmyadmin_dev
+    environment:
+      - PMA_HOST=db
+      - PMA_USER=appuser
+      - PMA_PASSWORD=apppassword
+      - PMA_ABSOLUTE_URI=http://localhost:8081/
+    ports:
+      - "8081:80"
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  # Servicio adicional para desarrollo: MailHog (simulador de email)
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: gestion_tareas_mailhog_dev
+    ports:
+      - "1025:1025"  # SMTP
+      - "8025:8025"  # Web UI
+    restart: unless-stopped
+
+volumes:
+  db_data_dev:
+  uploads:

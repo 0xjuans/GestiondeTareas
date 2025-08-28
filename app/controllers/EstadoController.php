@@ -1,5 +1,5 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT'] . '/GestiondeTareas/app/models/EstadoModel.php');
+require_once(__DIR__ . '/../models/EstadoModel.php');
 
 class EstadoController {
     private $estadoModel;

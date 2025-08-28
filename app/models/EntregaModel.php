@@ -1,5 +1,5 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT'] . '/GestiondeTareas/app/config/DbConfig.php');
+require_once(__DIR__ . '/../config/DbConfig.php');
 
 class EntregaModel {
     private $db;
@@ -14,10 +14,10 @@ class EntregaModel {
     }
 
     public function registrarEntrega($tareaId, $estudianteId, $archivoAdjunto) {
-        $sql = "INSERT INTO entregas_tareas (tarea_id, estudiante_id, estado_id, archivo_adjunto) 
+        $sql = "INSERT INTO entregas_tarea (tarea_id, estudiante_id, estado_id, archivo_adjunto) 
                 VALUES (?, ?, ?, ?)";
         $stmt = $this->db->prepare($sql);
-        $estadoId = 2; // 2 = "Entregado" (ajústalo según tu BD)
+        $estadoId = 7; // 7 = "en_progreso" (corregido según la estructura real de la BD)
         $stmt->bind_param("iiis", $tareaId, $estudianteId, $estadoId, $archivoAdjunto);
         $resultado = $stmt->execute();
 
@@ -29,7 +29,7 @@ class EntregaModel {
     }
 
     private function actualizarEstadoTarea($tareaId) {
-        $sql = "UPDATE tareas SET estado_id = 2 WHERE id = ?";
+        $sql = "UPDATE tareas SET estado_id = 7 WHERE id = ?"; // Corregido a estado_id = 7
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param("i", $tareaId);
         return $stmt->execute();
@@ -41,7 +41,7 @@ class EntregaModel {
      * Cuenta el número total de entregas en el sistema
      */
     public function contarTodasLasEntregas() {
-        $query = "SELECT COUNT(*) as total FROM entregas_tarea"; // Ajustar nombre de tabla según tu BD
+        $query = "SELECT COUNT(*) as total FROM entregas_tarea";
         $result = $this->db->query($query);
         $row = $result->fetch_assoc();
         return $row['total'] ?? 0;

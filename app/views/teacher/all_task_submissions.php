@@ -1,6 +1,6 @@
 <?php
 if (!defined('ROOT_PATH')) {
-    require_once($_SERVER['DOCUMENT_ROOT'] . '/GestiondeTareas/app/config/dirs.php');
+    require_once(__DIR__ . '/../../config/dirs.php');
 }
 
 // Verificar si el usuario está autenticado
@@ -98,7 +98,7 @@ if ($mostrarSoloPendientes) {
                                             <td class="fw-medium"><?= htmlspecialchars($tarea['titulo']) ?></td>
                                             <td><?= htmlspecialchars($tarea['materia_nombre']) ?></td>
                                             <td><?= htmlspecialchars($tarea['grupo_nombre']) ?></td>
-                                            <td><?= date('d/m/Y H:i', strtotime($tarea['fecha_entrega'])) ?></td>
+                                            <td><?= !empty($tarea['fecha_entrega']) ? date('d/m/Y H:i', strtotime($tarea['fecha_entrega'])) : 'N/A' ?></td>
                                             <td><span class="badge <?= $estadoClass ?>"><?= ucfirst($tarea['estado']) ?></span></td>
                                             <td>
                                                 <div class="d-flex align-items-center">

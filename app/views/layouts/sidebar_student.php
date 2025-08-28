@@ -1,6 +1,6 @@
 <?php
 if (!defined('ROOT_PATH')) {
-    include_once($_SERVER['DOCUMENT_ROOT'] . '/GestiondeTareas/app/config/dirs.php');
+    include_once(__DIR__ . '/../../config/dirs.php');
 }
 ?>
 

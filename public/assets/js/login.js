@@ -17,14 +17,17 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const formData = new FormData(this);
         
-        fetch('/GestiondeTareas/app/controllers/login_process.php', {
+        const baseUrl = (window.BASE_URL !== undefined ? window.BASE_URL : '').replace(/\/$/, '');
+        const loginUrl = `${baseUrl}/app/controllers/login_process.php`;
+        fetch(loginUrl, {
             method: 'POST',
             body: formData
         })
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                window.location.href = '/GestiondeTareas/';
+                const redirectUrl = `${baseUrl}/`;
+                window.location.href = redirectUrl;
             } else {
                 Swal.fire({
                     title: '¡Error!',

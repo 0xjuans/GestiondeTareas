@@ -1,6 +1,6 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT'] . '/GestiondeTareas/app/models/Grupo.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/GestiondeTareas/app/models/Usuario.php');
+require_once(__DIR__ . '/../models/Grupo.php');
+require_once(__DIR__ . '/../models/Usuario.php');
 
 class GrupoController {
     private $modelo;

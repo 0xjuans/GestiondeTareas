@@ -1,6 +1,6 @@
 <?php
 if (!defined('ROOT_PATH')) {
-    require_once($_SERVER['DOCUMENT_ROOT'] . '/GestiondeTareas/app/config/dirs.php');
+    require_once(__DIR__ . '/../../config/dirs.php');
 }
 
 require_once(CONTROLLERS_PATH . '/TareaController.php');
@@ -105,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['
                     <p><strong>Grupo:</strong> <?= htmlspecialchars($tarea['grupo_nombre']) ?></p>
                 </div>
                 <div class="col-md-6">
-                    <p><strong>Fecha de entrega:</strong> <?= date('d/m/Y H:i', strtotime($tarea['fecha_entrega'])) ?></p>
+                    <p><strong>Fecha de entrega:</strong> <?= !empty($tarea['fecha_entrega']) ? date('d/m/Y H:i', strtotime($tarea['fecha_entrega'])) : 'N/A' ?></p>
                     <p><strong>Estado:</strong> <span class="badge bg-primary"><?= htmlspecialchars(ucfirst($tarea['estado_nombre'])) ?></span></p>
                 </div>
                 <?php if (!empty($tarea['descripcion'])): ?>
@@ -166,7 +166,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['
                                             </div>
                                         </div>
                                     </td>
-                                    <td><?= date('d/m/Y H:i', strtotime($entrega['fecha_entrega'])) ?></td>
+                                    <td><?= !empty($entrega['fecha_entrega']) ? date('d/m/Y H:i', strtotime($entrega['fecha_entrega'])) : 'N/A' ?></td>
                                     <td>
                                         <?php if (!empty($entrega['comentarios'])): ?>
                                             <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="<?= htmlspecialchars($entrega['comentarios']) ?>">

@@ -1,0 +1,52 @@
+version: "3.9"
+services:
+  web:
+    build: .
+    container_name: gestion_tareas_web
+    ports:
+      - "8080:80"
+    environment:
+      - DB_HOST=db
+      - DB_USER=appuser
+      - DB_PASS=apppassword
+      - DB_NAME=gestion_tareas_escolares
+      - BASE_URL=
+      - APACHE_DOCUMENT_ROOT=/var/www/html/GestiondeTareas
+    volumes:
+      - ./:/var/www/html/GestiondeTareas
+      - uploads:/var/www/html/GestiondeTareas/public/uploads
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0.43
+    container_name: gestion_tareas_db
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpassword
+      - MYSQL_DATABASE=gestion_tareas_escolares
+      - MYSQL_USER=appuser
+      - MYSQL_PASSWORD=apppassword
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d
+    ports:
+      - "3307:3306"
+
+  phpmyadmin:
+    image: phpmyadmin:5
+    container_name: gestion_tareas_phpmyadmin
+    environment:
+      - PMA_HOST=db
+      - PMA_USER=appuser
+      - PMA_PASSWORD=apppassword
+    ports:
+      - "8081:80"
+    depends_on:
+      - db
+
+volumes:
+  db_data:
+  uploads:
+
+

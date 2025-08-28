@@ -7,12 +7,13 @@
  */
 
 if (!defined('ROOT_PATH')) {
-    require_once($_SERVER['DOCUMENT_ROOT'] . '/GestiondeTareas/app/config/dirs.php');
+    require_once(__DIR__ . '/dirs.php');
 }
 
-// Definir constantes de conexión
-define('DB_HOST', 'localhost');
-define('DB_USER', 'root');      // Usuario de la base de datos
-define('DB_PASS', '');          // Contraseña, por defecto vacía para XAMPP
-define('DB_NAME', 'gestion_tareas_escolares');
+// Definir constantes de conexión leyendo primero variables de entorno para soportar Docker
+// Valores por defecto mantienen compatibilidad con entorno local (XAMPP)
+define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
+define('DB_USER', getenv('DB_USER') ?: 'root');
+define('DB_PASS', getenv('DB_PASS') ?: '');
+define('DB_NAME', getenv('DB_NAME') ?: 'gestion_tareas_escolares');
 ?>

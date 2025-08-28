@@ -208,25 +208,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // ! I Spent Two Hours In This Block Of Code And Doesn't Work ^_^
 document.addEventListener("DOMContentLoaded", () => {
-  // Get the notification bell and container elements
+  // Get the notification bell and container elements (may not exist on some pages)
   let bell = document.querySelector(".notifications");
   let notifContainer = document.getElementById("notif-container");
 
-  // Toggle the visibility of the notification container when the bell is clicked
-  bell.addEventListener("click", () => {
-    // Toggle visibility
-    notifContainer.style.display =
-      notifContainer.style.display === "block" ? "none" : "block";
-  });
-
-  // Get all list items inside the notification container
-  let notifItems = notifContainer.querySelectorAll("li");
-
-  // Add click event listener to each notification item
-  notifItems.forEach((item) => {
-    item.addEventListener("click", () => {
-      // Add the "show" class to the clicked item
-      item.classList.add("show");
+  if (bell && notifContainer) {
+    // Toggle the visibility of the notification container when the bell is clicked
+    bell.addEventListener("click", () => {
+      notifContainer.style.display =
+        notifContainer.style.display === "block" ? "none" : "block";
     });
-  });
+
+    // Get all list items inside the notification container
+    let notifItems = notifContainer.querySelectorAll("li");
+
+    // Add click event listener to each notification item
+    notifItems.forEach((item) => {
+      item.addEventListener("click", () => {
+        item.classList.add("show");
+      });
+    });
+  }
 });

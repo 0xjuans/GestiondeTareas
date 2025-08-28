@@ -5,7 +5,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 if (!defined('ROOT_PATH')) {
-    require_once($_SERVER['DOCUMENT_ROOT'] . '/GestiondeTareas/app/config/dirs.php');
+    require_once(__DIR__ . '/../../config/dirs.php');
 }
 
 // Verificar si el usuario está autenticado
@@ -129,7 +129,9 @@ if (($filtroMateria || $filtroEstado) && empty($mensajeResultado)) {
 // Organizar las tareas por fecha de entrega
 if (!empty($tareas)) {
     usort($tareas, function($a, $b) {
-        return strtotime($a['fecha_entrega']) - strtotime($b['fecha_entrega']);
+        $fechaA = !empty($a['fecha_entrega']) ? strtotime($a['fecha_entrega']) : 0;
+        $fechaB = !empty($b['fecha_entrega']) ? strtotime($b['fecha_entrega']) : 0;
+        return $fechaA - $fechaB;
     });
 }
 
@@ -139,11 +141,16 @@ $tareasVencidas = [];
 $fechaActual = time();
 
 foreach ($tareas as $tarea) {
-    $fechaEntrega = strtotime($tarea['fecha_entrega']);
-    
-    if ($fechaEntrega < $fechaActual) {
-        $tareasVencidas[] = $tarea;
+    if (!empty($tarea['fecha_entrega'])) {
+        $fechaEntrega = strtotime($tarea['fecha_entrega']);
+        
+        if ($fechaEntrega < $fechaActual) {
+            $tareasVencidas[] = $tarea;
+        } else {
+            $tareasPendientes[] = $tarea;
+        }
     } else {
+        // Si no hay fecha de entrega, considerarla como pendiente
         $tareasPendientes[] = $tarea;
     }
 }
@@ -207,8 +214,13 @@ foreach ($tareas as $tarea) {
     <?php else: ?>
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-5">
             <?php foreach ($tareasPendientes as $tarea): 
-                $fechaEntrega = strtotime($tarea['fecha_entrega']);
-                $diferenciaDias = intval(($fechaEntrega - time()) / 86400);
+                if (!empty($tarea['fecha_entrega'])) {
+                    $fechaEntrega = strtotime($tarea['fecha_entrega']);
+                    $diferenciaDias = intval(($fechaEntrega - time()) / 86400);
+                } else {
+                    $fechaEntrega = 0;
+                    $diferenciaDias = 0;
+                }
                 
                 $badgeClase = 'bg-info';
                 $badgeTexto = "Faltan $diferenciaDias días";
@@ -235,6 +247,15 @@ foreach ($tareas as $tarea) {
                         <div class="card-body">
                             <h6 class="card-subtitle mb-2 text-muted"><?= htmlspecialchars($tarea['materia_nombre']) ?> - <?= htmlspecialchars($tarea['grupo_nombre']) ?></h6>
                             
+                            <?php if (!empty($tarea['descripcion'])): ?>
+                            <div class="mb-3">
+                                <p class="card-text">
+                                    <strong>Descripción:</strong><br>
+                                    <?= nl2br(htmlspecialchars($tarea['descripcion'])) ?>
+                                </p>
+                            </div>
+                            <?php endif; ?>
+                            
                             <p class="card-text mb-4">
                                 <i class="far fa-calendar-alt text-primary me-2"></i>
                                 <strong>Fecha de entrega:</strong> <?= date('d/m/Y H:i', $fechaEntrega) ?>
@@ -242,8 +263,9 @@ foreach ($tareas as $tarea) {
                             
                             <div class="d-flex justify-content-between align-items-center">
                                 <?php if ($estadoEntrega): ?>
+                                    <?php $fechaEnt = !empty($estadoEntrega['fecha_entrega']) ? strtotime($estadoEntrega['fecha_entrega']) : null; ?>
                                     <div class="badge bg-success p-2">
-                                        <i class="fas fa-check-circle me-1"></i> Entregada el <?= date('d/m/Y', strtotime($estadoEntrega['fecha_entrega'])) ?>
+                                        <i class="fas fa-check-circle me-1"></i> Entregada el <?= $fechaEnt ? date('d/m/Y', $fechaEnt) : 'N/A' ?>
                                     </div>
                                     <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#entregaModal<?= $tarea['id'] ?>">
                                         Ver entrega
@@ -353,8 +375,13 @@ foreach ($tareas as $tarea) {
         <h2 class="fs-4 mb-3 mt-4">Tareas Vencidas</h2>
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
             <?php foreach ($tareasVencidas as $tarea): 
-                $fechaEntrega = strtotime($tarea['fecha_entrega']);
-                $diferenciaDias = intval((time() - $fechaEntrega) / 86400);
+                if (!empty($tarea['fecha_entrega'])) {
+                    $fechaEntrega = strtotime($tarea['fecha_entrega']);
+                    $diferenciaDias = intval((time() - $fechaEntrega) / 86400);
+                } else {
+                    $fechaEntrega = 0;
+                    $diferenciaDias = 0;
+                }
                 
                 // Verificar si ya fue entregada
                 $estadoEntrega = $tareaController->verificarEntrega($tarea['id'], $estudiante_id);
@@ -372,6 +399,15 @@ foreach ($tareas as $tarea) {
                         <div class="card-body">
                             <h6 class="card-subtitle mb-2 text-muted"><?= htmlspecialchars($tarea['materia_nombre']) ?> - <?= htmlspecialchars($tarea['grupo_nombre']) ?></h6>
                             
+                            <?php if (!empty($tarea['descripcion'])): ?>
+                            <div class="mb-3">
+                                <p class="card-text">
+                                    <strong>Descripción:</strong><br>
+                                    <?= nl2br(htmlspecialchars($tarea['descripcion'])) ?>
+                                </p>
+                            </div>
+                            <?php endif; ?>
+                            
                             <p class="card-text mb-4">
                                 <i class="far fa-calendar-times text-danger me-2"></i>
                                 <strong>Fecha de entrega:</strong> <?= date('d/m/Y H:i', $fechaEntrega) ?>
@@ -379,8 +415,9 @@ foreach ($tareas as $tarea) {
                             
                             <div class="d-flex justify-content-between align-items-center">
                                 <?php if ($estadoEntrega): ?>
+                                    <?php $fechaEntV = !empty($estadoEntrega['fecha_entrega']) ? strtotime($estadoEntrega['fecha_entrega']) : null; ?>
                                     <div class="badge bg-success p-2">
-                                        <i class="fas fa-check-circle me-1"></i> Entregada el <?= date('d/m/Y', strtotime($estadoEntrega['fecha_entrega'])) ?>
+                                        <i class="fas fa-check-circle me-1"></i> Entregada el <?= $fechaEntV ? date('d/m/Y', $fechaEntV) : 'N/A' ?>
                                     </div>
                                     <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#entregaModalVencida<?= $tarea['id'] ?>">
                                         Ver entrega

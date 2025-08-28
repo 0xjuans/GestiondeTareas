@@ -1,0 +1,126 @@
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Archivos de IDE y editores
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.settings/
+.classpath
+
+# Archivos de configuración local
+app/config/DbConfig.php
+.env
+.env.local
+.env.production
+
+# Archivos de logs
+*.log
+logs/
+error_log
+access_log
+
+# Archivos temporales
+tmp/
+temp/
+cache/
+*.tmp
+*.temp
+
+# Archivos de sesión
+sessions/
+*.sess
+
+# Archivos de uploads (excepto estructura)
+public/uploads/*
+!public/uploads/.gitkeep
+
+# Archivos de base de datos
+*.sql
+*.db
+*.sqlite
+
+# Archivos de backup
+*.bak
+*.backup
+*.old
+
+# Archivos de dependencias
+vendor/
+node_modules/
+composer.lock
+
+# Archivos de Docker
+.dockerignore
+docker-compose.override.yml
+
+# Archivos de testing
+tests/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Archivos de build
+build/
+dist/
+*.tar.gz
+*.zip
+
+# Archivos de configuración del servidor
+.htaccess.local
+apache.conf.local
+
+# Archivos de seguridad
+*.key
+*.pem
+*.crt
+*.p12
+
+# Archivos de cache del navegador
+.sass-cache/
+*.css.map
+*.js.map
+
+# Archivos de configuración personalizada
+config.local.php
+database.local.php
+
+# Archivos de migración
+migrations/
+*.migration
+
+# Archivos de seed
+seeds/
+*.seed
+
+# Archivos de documentación generada
+docs/build/
+docs/_build/
+
+# Archivos de coverage
+coverage/
+*.coverage
+.coverage
+
+# Archivos de profiling
+*.prof
+*.profile
+
+# Archivos de lock de procesos
+*.pid
+*.lock
+
+# Archivos de configuración de XAMPP
+xampp/
+htdocs/

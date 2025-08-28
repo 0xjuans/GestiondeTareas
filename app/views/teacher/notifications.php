@@ -1,5 +1,5 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT'] . '/GestiondeTareas/app/config/dirs.php');
+require_once(__DIR__ . '/../../config/dirs.php');
 require_once(CONTROLLERS_PATH . '/NotificationController.php');
 require_once(CONTROLLERS_PATH . '/AuthController.php');
 
@@ -51,9 +51,15 @@ $notificaciones = $notificationController->obtenerNotificaciones($user_id);
                             }
                             
                             // Calcular tiempo transcurrido
-                            $timestamp_notificacion = strtotime($notif['created_at']);
-                            $timestamp_ahora = time();
-                            $diferencia_segundos = $timestamp_ahora - $timestamp_notificacion;
+                            if (!empty($notif['created_at'])) {
+                                $timestamp_notificacion = strtotime($notif['created_at']);
+                                $timestamp_ahora = time();
+                                $diferencia_segundos = $timestamp_ahora - $timestamp_notificacion;
+                            } else {
+                                $timestamp_notificacion = 0;
+                                $timestamp_ahora = time();
+                                $diferencia_segundos = 0;
+                            }
                             
                             $tiempo_transcurrido = '';
                             if ($diferencia_segundos < 60) {
