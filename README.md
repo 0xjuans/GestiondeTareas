@@ -12,7 +12,6 @@ Sistema web completo para la gestión de tareas escolares desarrollado en PHP co
 - **📤 Sistema de Entregas** con archivos adjuntos
 - **🔔 Notificaciones** en tiempo real
 - **📊 Dashboard** con estadísticas y métricas
-- **🌙 Modo Oscuro** para mejor experiencia de usuario
 - **📱 Diseño Responsivo** para todos los dispositivos
 
 ## 🛠️ Tecnologías Utilizadas
