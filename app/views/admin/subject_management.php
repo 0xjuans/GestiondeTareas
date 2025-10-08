@@ -164,6 +164,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
     </div>
+    <?php include __DIR__ . '/../layouts/footer.php'; ?>
 </div>
 
 <!-- Modal de Edición -->

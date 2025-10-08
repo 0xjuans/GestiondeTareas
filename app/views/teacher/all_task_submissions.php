@@ -131,4 +131,5 @@ if ($mostrarSoloPendientes) {
             </div>
         </div>
     </div>
+    <?php include __DIR__ . '/../layouts/footer.php'; ?>
 </div>

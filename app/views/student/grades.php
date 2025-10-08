@@ -106,6 +106,7 @@ if (!defined('ROOT_PATH')) {
             </div>
         </div>
     </div>
+    <?php include __DIR__ . '/../layouts/footer.php'; ?>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

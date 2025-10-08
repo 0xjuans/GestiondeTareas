@@ -244,6 +244,7 @@ foreach ($estadisticas as $stat) {
             </div>
         </div>
     </div>
+    <?php include __DIR__ . '/../layouts/footer.php'; ?>
 </div>
 
 <!-- JavaScript para la interactividad -->

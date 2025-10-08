@@ -6,3 +6,5 @@ if (!defined('ROOT_PATH')) {
 
 <h1 class="position-relative header-page">Tareas Asignadas</h1>
 // ... contenido similar a task_visualization.php pero adaptado para profesor
+
+<?php include __DIR__ . '/../layouts/footer.php'; ?>

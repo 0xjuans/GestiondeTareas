@@ -72,4 +72,5 @@ if (!defined('ROOT_PATH')) {
             </div>
         </div>
     </div>
+    <?php include __DIR__ . '/../layouts/footer.php'; ?>
 </div>

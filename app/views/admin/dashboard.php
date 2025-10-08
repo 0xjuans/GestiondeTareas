@@ -596,6 +596,7 @@ foreach ($estadosLabels as $estado) {
             </div>
         </div>
     </div>
+    <?php include __DIR__ . '/../layouts/footer.php'; ?>
 </div>
 
 <!-- Incluyo Chart.js para los gráficos -->

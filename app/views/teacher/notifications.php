@@ -103,6 +103,7 @@ $notificaciones = $notificationController->obtenerNotificaciones($user_id);
             </div>
         </div>
     </div>
+    <?php include __DIR__ . '/../layouts/footer.php'; ?>
 </div>
 
 <script>    function marcarComoLeida(id, callback = null) {

@@ -308,6 +308,7 @@ if (!empty($tareasProximas)) {
             </div>
         </div>
     </div>
+    <?php include __DIR__ . '/../layouts/footer.php'; ?>
 </div>
 
 <script>

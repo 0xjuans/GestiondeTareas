@@ -185,6 +185,7 @@ $tareas = $tareaController->obtenerTareasAsignadasConEntregas($profesorId);
             </div>
         </div>
     </div>
+    <?php include __DIR__ . '/../layouts/footer.php'; ?>
 </div>
 
 <script>

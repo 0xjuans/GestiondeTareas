@@ -285,6 +285,7 @@ foreach ($tareasAsignadas as $tarea) {
             <?php endif; ?>
         </div>
     </div>
+    <?php include __DIR__ . '/../layouts/footer.php'; ?>
 </div>
 
 <!-- Modal para Mostrar Detalles de Tarea -->
@@ -353,6 +354,7 @@ foreach ($tareasAsignadas as $tarea) {
             </div>
         </div>
     </div>
+    <?php include __DIR__ . '/../layouts/footer.php'; ?>
 </div>
 
 <script>

@@ -153,6 +153,7 @@ if (isset($_SESSION['user_id'])) {
                         </li>
                     <?php endif; ?>
                 </ul>
+                
             </div>
 
             <!-- Separador vertical -->

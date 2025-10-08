@@ -202,6 +202,7 @@ foreach ($tareas as $tarea) {
                 </div>
             </form>
         </div>
+        
     </div>
     
     <!-- Sección Tareas Pendientes -->
@@ -489,6 +490,7 @@ foreach ($tareas as $tarea) {
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
+    <?php include __DIR__ . '/../layouts/footer.php'; ?>
 </div>
 
 <script>
