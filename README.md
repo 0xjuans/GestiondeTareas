@@ -47,10 +47,8 @@ El frontend estará disponible en: `http://localhost:3000`
 ## 📋 Funcionalidades
 
 ### ✅ Implementadas (Frontend)
-- Sistema de autenticación con JWT
 - Dashboard dinámico por rol
 - Navegación responsive
-- Gestión de notificaciones
 - Interfaz moderna con Bootstrap
 
 ### 🔄 En Desarrollo
