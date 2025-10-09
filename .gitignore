@@ -1,0 +1,27 @@
+# Ignorar todo excepto el frontend y README
+*
+
+# Incluir solo el frontend y README
+!frontend/
+
+
+
+!README.md
+
+# Dentro del frontend, ignorar archivos innecesarios
+frontend/node_modules/
+frontend/build/
+frontend/dist/
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/.DS_Store
+frontend/coverage/
+frontend/.pnp
+frontend/.pnp.js
+frontend/.eslintcache
