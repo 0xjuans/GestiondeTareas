@@ -1,10 +1,10 @@
 /**
- * Página de inicio de sesión
+ * Página de inicio de sesión con diseño elegante
  */
 
 import React, { useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap';
+import { Form, Button, Alert } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -12,6 +12,17 @@ import { toast } from 'react-toastify';
 import { useAuth } from '../context/AuthContext';
 import { LoadingSpinner } from '../components/common/LoadingSpinner';
 import { ROUTES } from '../utils/constants';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import '../styles/Login.css';
+
+// Asegurar tipos JSX
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      [elemName: string]: any;
+    }
+  }
+}
 
 interface LoginFormData {
   email: string;
@@ -32,6 +43,7 @@ const schema = yup.object({
 export const Login: React.FC = () => {
   const { login, isLoading, isAuthenticated } = useAuth();
   const [loginError, setLoginError] = useState<string>('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const {
     register,
@@ -62,81 +74,94 @@ export const Login: React.FC = () => {
     }
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
-    <div 
-      className="d-flex align-items-center justify-content-center min-vh-100"
-      style={{
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
-      }}
-    >
-      <Container>
-        <Row className="justify-content-center">
-          <Col md={6} lg={4}>
-            <Card className="shadow-lg border-0">
-              <Card.Body className="p-4">
-                <div className="text-center mb-4">
-                  <h2 className="fw-bold text-primary">Iniciar Sesión</h2>
-                  <p className="text-muted">Sistema de Gestión de Tareas</p>
-                </div>
+    <div className="login-container">
+      <div className="glass-effect">
+        <img 
+          src="/images/Logo_colegio.webp" 
+          alt="Logo Colegio San Francisco de Asís" 
+          className="school-logo"
+          onError={(e) => {
+            // Fallback si no existe la imagen
+            (e.target as HTMLImageElement).style.display = 'none';
+          }}
+        />
 
-                {loginError && (
-                  <Alert variant="danger" className="mb-3">
-                    {loginError}
-                  </Alert>
-                )}
+        <div className="login-header">
+          <h2>Bienvenido</h2>
+          <p>Sistema de Gestión de Tareas Escolares</p>
+        </div>
 
-                <Form onSubmit={handleSubmit(onSubmit)}>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control
-                      type="email"
-                      placeholder="tu@email.com"
-                      {...register('email')}
-                      isInvalid={!!errors.email}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.email?.message}
-                    </Form.Control.Feedback>
-                  </Form.Group>
+        {loginError && (
+          <Alert variant="danger" className="mb-3 login-alert">
+            {loginError}
+          </Alert>
+        )}
 
-                  <Form.Group className="mb-3">
-                    <Form.Label>Contraseña</Form.Label>
-                    <Form.Control
-                      type="password"
-                      placeholder="Tu contraseña"
-                      {...register('password')}
-                      isInvalid={!!errors.password}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.password?.message}
-                    </Form.Control.Feedback>
-                  </Form.Group>
+        <Form onSubmit={handleSubmit(onSubmit)} className="login-form">
+          <div className="form-group">
+            <div className="input-wrapper">
+              <i className="bi bi-person form-icon"></i>
+              <Form.Control
+                type="email"
+                placeholder="Correo electrónico"
+                {...register('email')}
+                className="form-control-custom"
+                isInvalid={!!errors.email}
+              />
+            </div>
+            {errors.email && (
+              <Form.Control.Feedback type="invalid" className="d-block mt-1">
+                {errors.email.message}
+              </Form.Control.Feedback>
+            )}
+          </div>
 
-                  <Button
-                    type="submit"
-                    variant="primary"
-                    size="lg"
-                    className="w-100"
-                    disabled={isLoading}
-                  >
-                    {isLoading ? (
-                      <LoadingSpinner size="sm" variant="light" text="" />
-                    ) : (
-                      'Iniciar Sesión'
-                    )}
-                  </Button>
-                </Form>
+          <div className="form-group">
+            <div className="input-wrapper">
+              <i className="bi bi-lock form-icon"></i>
+              <Form.Control
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Contraseña"
+                {...register('password')}
+                className="form-control-custom"
+                isInvalid={!!errors.password}
+              />
+              <i 
+                className={`bi ${showPassword ? 'bi-eye-slash' : 'bi-eye'} password-toggle`}
+                onClick={togglePasswordVisibility}
+              ></i>
+            </div>
+            {errors.password && (
+              <Form.Control.Feedback type="invalid" className="d-block mt-1">
+                {errors.password.message}
+              </Form.Control.Feedback>
+            )}
+          </div>
 
-                <div className="text-center mt-4">
-                  <small className="text-muted">
-                    ¿Problemas para acceder? Contacta al administrador
-                  </small>
-                </div>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
+          <Button
+            type="submit"
+            className="btn-login"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <LoadingSpinner size="sm" variant="light" text="" />
+            ) : (
+              'Iniciar Sesión'
+            )}
+          </Button>
+        </Form>
+
+        <div className="forgot-password">
+          <small>
+            ¿Problemas para acceder? Contacta al administrador
+          </small>
+        </div>
+      </div>
     </div>
   );
 };
