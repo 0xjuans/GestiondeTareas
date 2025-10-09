@@ -1,11 +1,9 @@
-# Ignorar todo excepto el frontend y README
+# Ignorar todo excepto frontend y backend
 *
 
-# Incluir solo el frontend y README
+# Incluir frontend, backend y README
 !frontend/
-
-
-
+!backend/
 !README.md
 
 # Dentro del frontend, ignorar archivos innecesarios
@@ -25,3 +23,19 @@ frontend/coverage/
 frontend/.pnp
 frontend/.pnp.js
 frontend/.eslintcache
+
+# Dentro del backend, ignorar archivos innecesarios
+backend/node_modules/
+backend/build/
+backend/dist/
+backend/.env
+backend/.env.local
+backend/.env.development.local
+backend/.env.test.local
+backend/.env.production.local
+backend/npm-debug.log*
+backend/yarn-debug.log*
+backend/yarn-error.log*
+backend/.DS_Store
+backend/coverage/
+backend/*.tsbuildinfo
